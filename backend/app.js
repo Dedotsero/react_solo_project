@@ -4,17 +4,16 @@ const cors = require('cors');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
-const { ValidationError } = require('sequelize');
-
-const routes = require('./routes');
 const { environment } = require('./config');
 const isProduction = environment === 'production';
-
 const app = express();
+const routes = require('./routes');
+const { ValidationError } = require('sequelize');
 
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
+
 
 // Security Middleware
 if (!isProduction) {
@@ -25,6 +24,7 @@ if (!isProduction) {
 app.use(helmet({
   contentSecurityPolicy: false
 }));
+
 // Set the _csrf token and create req.csrfToken method
 app.use(
   csurf({
@@ -36,9 +36,8 @@ app.use(
   })
 );
 
-app.use(routes); // Connect all the routes
-
-// Catch unhandled requests and forward to error handler.
+app.use(routes); // Connect all the routes. This must go on the bottom of all middleware
+// Phase 2: Error Handling
 app.use((_req, _res, next) => {
   const err = new Error("The requested resource couldn't be found.");
   err.title = "Resource Not Found";

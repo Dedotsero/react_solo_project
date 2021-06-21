@@ -4,6 +4,9 @@ const { jwtConfig } = require('../config');
 const { User } = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
+// backend/utils/validation.js
+const { validationResult } = require('express-validator');
+
 
 // Sends a JWT Cookie
 const setTokenCookie = (res, user) => {
@@ -26,6 +29,7 @@ const setTokenCookie = (res, user) => {
 
   return token;
 };
+
 
 const restoreUser = (req, res, next) => {
   // token parsed from cookies
@@ -50,7 +54,6 @@ const restoreUser = (req, res, next) => {
   });
 };
 
-// If there is no current user, return an error
 const requireAuth = [
   restoreUser,
   function (req, res, next) {
@@ -63,5 +66,27 @@ const requireAuth = [
     return next(err);
   },
 ];
+
+// const handleValidationErrors = (req, _res, next) => {
+//   const validationErrors = validationResult(req);
+
+//   if (!validationErrors.isEmpty()) {
+//     const errors = validationErrors
+//       .array()
+//       .map((error) => `${error.msg}`);
+
+//     const err = Error('Bad request.');
+//     err.errors = errors;
+//     err.status = 400;
+//     err.title = 'Bad request.';
+//     next(err);
+//   }
+//   next();
+// };
+
+// module.exports = {
+//   handleValidationErrors,
+// };
+
 
 module.exports = { setTokenCookie, restoreUser, requireAuth };
