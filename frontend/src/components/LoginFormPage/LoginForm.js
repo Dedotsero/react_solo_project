@@ -22,6 +22,7 @@ function LoginForm() {
   };
 
   return (
+    //wrap the form in a div to adjust sizes for both signup and login
     <form id="login-form" onSubmit={handleSubmit}>
       <div>
         <ul>
