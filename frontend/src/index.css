@@ -1,1 +1,8 @@
 /* TODO Add site wide styles */
+html{
+  background-color: #8ECAE6;
+  height: 100%;
+}
+body{
+  margin: 0;
+}
