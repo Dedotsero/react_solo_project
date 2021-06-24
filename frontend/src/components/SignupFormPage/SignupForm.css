@@ -10,6 +10,15 @@
 .confirmPassword-signup-input-container{
   padding-bottom: 10%;
 }
+#signup-form{
+  height: 100%;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #023047;
+  border-radius: 10px;
+}
 form{
   height: 90%;
   width: 85%;
@@ -18,7 +27,8 @@ h2{
   margin: 0;
 }
 .signup-title{
-  padding-left: 14%;
+  position: relative;
+  left: 14%;
   padding-bottom: 5%;
 }
 .signup-buttons{

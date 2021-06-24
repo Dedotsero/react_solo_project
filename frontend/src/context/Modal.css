@@ -19,10 +19,10 @@
 #modal-content {
   position: absolute;
   color: white;
-  background-color:#023047;
+  /* background-color:#023047; */
   height: 35%;
   width: 15%;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   display: flex;
   align-items: center;
   justify-content: center;

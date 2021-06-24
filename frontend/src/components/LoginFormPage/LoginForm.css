@@ -13,8 +13,13 @@ h2{
   margin: 0;
 }
 #login-form{
-  height: 90%;
-  width: 85%;
+  height: 75%;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #023047;
+  border-radius: 10px;
 }
 #credential-label,
 #password-label{
