@@ -25,15 +25,15 @@ const deleteAlbum = (album) => {
 }
 
 export const getAlbums = () => async (dispatch) => {
-  const res = await fetch('/api/album')
+  const res = await fetch('/api/albums')
   if(res.ok){
     const albumList = await res.json()
-    await dispatch(load(albumList))
+    dispatch(load(albumList))
   }
 }
 
 export const getAllAlbums = () => async (dispatch) => {
-  const res = await fetch('/api/album/all')
+  const res = await fetch('/api/albums/all')
   if(res.ok){
     const albumsList = await res.json()
     dispatch(load(albumsList))
@@ -42,7 +42,7 @@ export const getAllAlbums = () => async (dispatch) => {
 
 export const createAlbum = (album) => async (dispatch) => {
   const { title, imageUrl, userId } = album
-  const res = await csrfFetch("/api/album", {
+  const res = await csrfFetch("/api/albums", {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -61,7 +61,7 @@ export const createAlbum = (album) => async (dispatch) => {
 
 export const editAlbum = (album) => async (dispatch) => {
   const { title, imageUrl, userId } = album
-  const res = await fetch(`/api/album/${album.id}`,{
+  const res = await fetch(`/api/albums/${album.id}`,{
     method: "PUT",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -78,7 +78,7 @@ export const editAlbum = (album) => async (dispatch) => {
 }
 
 export const removeAlbum = (albumId) => async (dispatch) => {
-  const res = await csrfFetch(`/api/album/${albumId}`,{
+  const res = await csrfFetch(`/api/albums/${albumId}`,{
     method: "DELETE"
   })
   const removeAlbum = await res.json()
@@ -99,7 +99,7 @@ const albumReducer = (state = initialState, action) => {
   switch(action.type){
     case LOAD: {
       const allAlbums = {};
-      action.list.forEach(album => {
+      action.payload.forEach(album => {
         allAlbums[album.id] = album;
       })
       return {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import * as albumActions from '../../store/albums'
+import * as albumActions from '../../store/album'
 import './CreateAlbum.css'
 import { useHistory, useParams } from "react-router-dom"
 import { csrfFetch } from '../../store/csrf'
@@ -72,35 +72,37 @@ export default function CreateAlbumComponent(){
     )
   } else {
     correctForm = (
-      <form onSubmit={handleSubmit}>
-        <div>
+      <div>
+        <form onSubmit={handleSubmit}>
           <div>
-            <label>Album Title:</label>
+            <div>
+              <label>Album Title:</label>
+            </div>
+            <div>
+              <input
+                type='text'
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+            </div>
           </div>
           <div>
-            <input
-              type='text'
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
+            <div>
+              <label>Album Cover Art URL:</label>
+            </div>
+            <div>
+              <input
+                type='text'
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+                required
+              />
+            </div>
           </div>
-        </div>
-        <div>
-          <div>
-            <label>Album Cover Art URL:</label>
-          </div>
-          <div>
-            <input
-              type='text'
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              required
-            />
-          </div>
-        </div>
-        <button type="submit">CreateAlbum</button>
-      </form>
+          <button type="submit">CreateAlbum</button>
+        </form>
+      </div>
     )
   }
   return(

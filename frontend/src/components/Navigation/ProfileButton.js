@@ -40,11 +40,9 @@ function ProfileButton({ user }) {
             <li>Welcome,</li>
             <li id="dropdown-username">{user.username}</li>
             <li>
-              <a>
-                <button id="profile-button">
-                  Profile
-                </button>
-              </a>
+              <button id="profile-button">
+                Profile
+              </button>
             </li>
           </div>
           <div id="dropdown-logout">

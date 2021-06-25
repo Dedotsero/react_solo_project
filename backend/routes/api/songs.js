@@ -23,7 +23,7 @@ router.get(
 router.get(
   '/all',
   asyncHandler(async (req, res) => {
-    const songs = await Song.findAll();
+    const songs = await Song.findAll()
     return res.json({
       songs
     })
@@ -46,7 +46,7 @@ router.get(
 router.post(
   '/',
   asyncHandler(async (req, res) => {
-    const { title, songUrl, userId, albumId } = req.body;
+    const { title, songUrl, userId, albumId } = req.body
     const song = await Song.create({
       title,
       songUrl,
@@ -63,8 +63,8 @@ router.put(
   restoreUser,
   asyncHandler(async (req, res) => {
     const id = req.params.id;
-    const { title, songUrl, userId, albumId } = req.body;
-    const song = await Song.findByPk(id);
+    const { title, songUrl, userId, albumId } = req.body
+    const song = await Song.findByPk(id)
     song.update({
       title,
       songUrl,
@@ -79,8 +79,8 @@ router.put(
 router.delete(
   '/:id(\\d+)',
   asyncHandler(async (req, res) => {
-    const songId = req.params.id;
-    const deleteSong = await Song.findByPk(songId);
+    const songId = req.params.id
+    const deleteSong = await Song.findByPk(songId)
     deleteSong.destroy()
     return res.json(
       deleteSong

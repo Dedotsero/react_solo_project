@@ -13,7 +13,14 @@ function Navigation({ isLoaded }) {
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <ProfileButton user={sessionUser} />
+      <div>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+      </div>
     );
   } else {
     sessionLinks = (
@@ -33,6 +40,12 @@ function Navigation({ isLoaded }) {
               <i class="fas fa-home"></i>
             </button>
           </NavLink>
+          <NavLink to="/albums">
+                <button id="albums-button">
+                  Albums
+                </button>
+          </NavLink>
+          <ProfileButton user={sessionUser} />
           {isLoaded && sessionLinks}
         </li>
       </ul>
