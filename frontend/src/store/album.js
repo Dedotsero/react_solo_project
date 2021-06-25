@@ -1,25 +1,48 @@
 import { csrfFetch } from './csrf'
 
-const SET_ALBUM = 'album/setEvent'
-const DELETE_ALBUM = 'album/deleteEvent'
+const LOAD = 'album/load'
+const ADD_ALBUM = 'album/setAlbum'
+const DELETE_ALBUM = 'album/deleteAlbum'
 
-const setAlbum = (album) => {
+const load = (album) => {
   return {
-    type: SET_ALBUM,
-    payload: album
+    type: LOAD,
+    album
+  }
+}
+const addAlbum = (album) => {
+  return {
+    type: ADD_ALBUM,
+    album
     }
   }
 
 const deleteAlbum = (album) => {
   return {
     type: DELETE_ALBUM,
-    payload: album
+    album
   }
 }
 
-export const createAlbum = (album)=> async() =>{
+export const getAlbums = () => async (dispatch) => {
+  const res = await fetch('/api/album')
+  if(res.ok){
+    const albumList = await res.json()
+    await dispatch(load(albumList))
+  }
+}
+
+export const getAllAlbums = () => async (dispatch) => {
+  const res = await fetch('/api/album/all')
+  if(res.ok){
+    const albumsList = await res.json()
+    dispatch(load(albumsList))
+  }
+}
+
+export const createAlbum = (album) => async (dispatch) => {
   const { title, imageUrl, userId } = album
-  const response = await csrfFetch("/api/album", {
+  const res = await csrfFetch("/api/album", {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -28,37 +51,29 @@ export const createAlbum = (album)=> async() =>{
       userId
     })
   })
-  return response
+  if(res.ok){
+    const createAlbum = await res.json()
+    dispatch(addAlbum(createAlbum))
+    return createAlbum
+  }
 }
 
-export const getAlbums = () => async (dispatch) => {
-  const res = await fetch('/api/album')
-  const albumList = await res.json()
-  await dispatch(setAlbum(albumList.albums))
-  return res;
-}
 
-export const getAllAlbums = () => async (dispatch) => {
-  const res = await fetch('/api/album/all')
-  const albumsList = await res.json()
-  await dispatch(setEvent(albumsList.albums))
-  return res
-}
-
-export const editAlbum = (albumId) => async dispatch => {
-  const res = await fetch(`/api/pokemon/${albumId}`,{
+export const editAlbum = (album) => async (dispatch) => {
+  const { title, imageUrl, userId } = album
+  const res = await fetch(`/api/album/${album.id}`,{
     method: "PUT",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       title,
-      albumUrl,
+      imageUrl,
       userId
     })
   })
-  if(response.ok){
-    const editPokemon = await response.json()
-    dispatch(addOnePokemon(editPokemon))
-    return editPokemon
+  if(res.ok){
+    const editAlbum = await res.json()
+    dispatch(addAlbum(editAlbum))
+    return editAlbum
   }
 }
 
@@ -73,10 +88,27 @@ export const removeAlbum = (albumId) => async (dispatch) => {
 
 const initialState = {}
 
+const sortList = (list) => {
+  return list.sort((albumA, albumB) => {
+    return albumA.no - albumB.no;
+  }).map((album) => album.id);
+};
+
 const albumReducer = (state = initialState, action) => {
   let newState;
   switch(action.type){
-    case SET_ALBUM:
+    case LOAD: {
+      const allAlbums = {};
+      action.list.forEach(album => {
+        allAlbums[album.id] = album;
+      })
+      return {
+        ...allAlbums,
+        ...state,
+        list: sortList(action.list),
+      };
+    }
+    case ADD_ALBUM:
       newState = Object.assign({}, state)
       action.payload.forEach((album)=>{
         newState[album.id] = album

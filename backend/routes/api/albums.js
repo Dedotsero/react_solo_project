@@ -4,7 +4,7 @@ const { Album } = require('../../db/models');
 const { restoreUser } = require('../../utils/auth');
 
 const router = express.Router();
-
+//
 router.get(
   '/users/:id',
   restoreUser,
@@ -58,7 +58,7 @@ router.post(
   })
 )
 router.put(
-  '/edit/:id(\\d+)',
+  '/:id(\\d+)',
   restoreUser,
   asyncHandler(async (req, res) => {
     const albumId = req.params.id;

@@ -43,13 +43,13 @@ router.post(
   })
 )
 router.put(
-  '/edit/:id(\\d+)',
+  '/:id(\\d+)',
   restoreUser,
   asyncHandler(async (req, res) => {
     const commentId = req.params.id;
     const { content, songId, userId } = req.body;
     const comment = await Comment.findByPk(commentId);
-    album.update({
+    comment.update({
       content,
       songId,
       userId

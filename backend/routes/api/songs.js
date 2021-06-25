@@ -59,7 +59,7 @@ router.post(
   })
 )
 router.put(
-  '/edit/:id(\\d+)',
+  '/:id(\\d+)',
   restoreUser,
   asyncHandler(async (req, res) => {
     const id = req.params.id;
