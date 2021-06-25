@@ -6,11 +6,10 @@ const { restoreUser } = require('../../utils/auth');
 const router = express.Router();
 
 router.get(
-  '/',
+  '/users/:id',
   restoreUser,
   asyncHandler(async (req, res) => {
-    // const { user } = req;
-    const currentUserId = req.params.id
+    const currentUserId = parseInt(req.params.id)
     const albums = await Album.findAll({
       where: {
         userId: currentUserId
@@ -26,14 +25,14 @@ router.get(
   asyncHandler(async (req, res) => {
     const albums = await Album.findAll();
     return res.json({
-      albums,
+      albums
     })
   })
 )
 router.get(
   '/:id(\\d+)',
   asyncHandler(async (req, res) => {
-    const albumId = req.params.id;
+    const albumId = parseInt(req.params.id)
     const album = await Album.findOne({
       where:{
         id: albumId

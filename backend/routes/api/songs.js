@@ -6,11 +6,10 @@ const { restoreUser } = require('../../utils/auth');
 const router = express.Router();
 
 router.get(
-  '/',
+  '/users/:id',
   restoreUser,
   asyncHandler(async (req, res) => {
-    const { user } = req;
-    const currentUserId = user.dataValues.id
+    const currentUserId = parseInt(req.params.id)
     const songs = await Song.findAll({
       where: {
         userId: currentUserId
@@ -33,7 +32,7 @@ router.get(
 router.get(
   '/:id(\\d+)',
   asyncHandler(async (req, res) => {
-    const songId = req.params.id;
+    const songId = parseInt(req.params.id)
     const song = await Song.findOne({
       where:{
         id: songId
